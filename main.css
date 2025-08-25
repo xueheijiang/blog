@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .container{
     display: flex;
     gap: 20px;
@@ -44,3 +45,51 @@ padding: 20px;
     border-color: #ffffff;
 
 }
+=======
+.container{
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+}
+/*flex布局
+元素之间的间隔
+元素和边缘的间隔*/
+.left_column{
+min-width: 100px;
+width: 200px;
+display: flex;
+flex-direction: column;
+gap: 15px;
+}
+.box{
+display: flex;
+gap: 20px;
+padding: 20px;
+background-color: aliceblue;
+border: 5px solid #00000000;
+min-height: 100px; /* 设置最小高度为100px */
+flex-wrap:wrap; 
+align-items: center;
+justify-content: center
+}
+.middle-column{
+display: flex;
+flex:1;
+justify-content: center;
+flex-direction: column;
+padding: 0% 90px;
+gap: 15px;
+border-right-style:solid;
+border-left-style:solid;
+border-color: #ffffff;
+}
+.container {
+display: flex;
+gap: 20px; /* 两列之间的间距 */
+padding: 20px;
+}
+.xue_hei_jiang{
+    border-color: #ffffff;
+
+}
+>>>>>>> 68cc7d7daf3912b211688663847e9b3db2bdcdbd
