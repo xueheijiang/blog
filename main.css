@@ -33,7 +33,7 @@ padding: 0% 90px;
 gap: 15px;
 border-right-style:solid;
 border-left-style:solid;
-border-color: #ffffff;
+border-color: #ffec3f;
 }
 .container {
 display: flex;
@@ -48,6 +48,7 @@ padding: 20px;
     display: flex;
     gap: 20px;
     padding: 20px;
+    align-items: flex-start
 }
 /*flex布局
 元素之间的间隔
