@@ -16,6 +16,10 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    border-right-style:solid;
+    border-color: #ffec3f;
+    padding: 0% 90px;    
+
 }
 .box{
     display: flex;
@@ -26,7 +30,7 @@
     min-height: 100px; /* 设置最小高度为100px */
     flex-wrap:wrap; 
     align-items: center;
-justify-content: center
+    justify-content: center
 }
 .middle-column{
 display: flex;
@@ -36,7 +40,6 @@ flex-direction: column;
 padding: 0% 90px;
 gap: 15px;
 border-right-style:solid;
-border-left-style:solid;
 border-color: #ffec3f;
 }
 .container {
@@ -48,4 +51,14 @@ padding: 20px;
     border-color: #ffffff;
 
 }
-
+.jing_jv{
+    border: 1px solid #ffffff; 
+    text-align: center;
+    margin: 20px 0;
+    font-size: 16px;
+    /* 给空元素设置最小高度和内边距，避免因无内容导致看不见 */
+    min-height: 40px; 
+    line-height: 40px; /* 让文本垂直居中（如果加内容的话） */
+    color: #ffffff; /* 文字设为白色，适配深色背景（原背景#232323） */
+    padding: 0 10px; /* 左右内边距，避免内容贴边 */
+}
