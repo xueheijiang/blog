@@ -7,3 +7,23 @@
     setInterval(() => {
       el.textContent = sentences[i++ % sentences.length];
     }, 2000);
+    //
+const overlay = document.querySelector('.overlay');
+    const ying_cang_neirong = document.getElementById('ying_cang_neirong');
+
+    const ying_cang_button = document.getElementById('ying_cang_button');
+    
+    const close_Button = document.getElementById('close_Button');
+    close_Button.addEventListener('click', () => {
+      ying_cang_neirong.classList.add('ying_cang_neirongactive');
+      overlay.classList.remove('overlay-fade-in')});
+    //先创建一个const变量然后通过标签同步。在后面添加事件监听器并触发修改标签属性的事件
+    let clickCount = 0;
+
+   ying_cang_button.addEventListener('click', () => {clickCount++;if (clickCount >= 3) { 
+    ying_cang_neirong.classList.remove('ying_cang_neirongactive');
+    overlay.classList.add('overlay-fade-in');
+    clickCount = 0;}});
+  overlay.addEventListener('click', () => {
+      ying_cang_neirong.classList.add('ying_cang_neirongactive');
+      overlay.classList.remove('overlay-fade-in')});

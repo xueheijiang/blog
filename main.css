@@ -62,3 +62,62 @@ padding: 20px;
     color: #ffffff; /* 文字设为白色，适配深色背景（原背景#232323） */
     padding: 0 10px; /* 左右内边距，避免内容贴边 */
 }
+#ying_cang_neirong{
+    position: fixed;
+    width: 350px;
+    background-color: #fff;
+    top: 0px;
+    height:100%;
+    right: 0%;
+    transition: transform 0.5s ease, opacity 0.5s ease; 
+    overflow-y: auto; 
+    z-index: 1000;
+
+
+}
+
+.ying_cang_neirongactive{
+    
+      transform: translateX(100%);
+}
+
+.overlay {
+    position: fixed; /* 固定全屏，覆盖主页面 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.973); /* 半透明黑色，模糊主页面 */
+    z-index: 40; /* 层级：主页面（默认0）< 遮罩层（40）< 侧边栏（1000），符合需求 */
+    transition: opacity 0.5s ease; /* 淡入/淡出动画，和侧边栏过渡时间一致 */
+    opacity: 0; /* 初始状态：完全透明（隐藏） */
+    pointer-events: none; /* 初始状态：不响应点击（避免遮挡主页面交互） */
+}
+.overlay.overlay-fade-in {
+    opacity: 0.5; /* 显示半透明效果 */
+    pointer-events: auto; /* 允许点击遮罩层（用于关闭侧边栏） */
+}
+.otu{
+    min-width: 100px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding:20px 20px;
+
+}
+.box2{
+    display: flex;
+    gap: 20px;
+    padding:20px 20px;
+    background-color: aliceblue;
+    border: 5px solid #00000000;
+    min-height: 100px; /* 设置最小高度为100px */
+    flex-wrap:wrap; 
+    align-items: center;
+    justify-content: center;
+    width: 250px;
+    
+}
+
+/* 5. 遮罩层隐藏类（可选，可直接用基础样式覆盖） */

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电子呕吐物 | 我的博客</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        // 配置Tailwind自定义颜色和字体
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        vomit: {
+                            light: '#FFF9E6',
+                            DEFAULT: '#F5E6A3',
+                            dark: '#E6D37A',
+                            text: '#8B7D3F'
+                        },
+                        blog: {
+                            bg: '#FAFAFA',
+                            text: '#333333',
+                            light: '#F0F0F0',
+                            border: '#E0E0E0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Source Han Sans CN', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .vomit-card {
+                @apply bg-white rounded-lg p-4 mb-4 shadow-sm hover:shadow-md transition-all duration-300 transform hover:-translate-y-1 border border-blog-border;
+            }
+            .vomit-tag {
+                @apply text-xs px-2 py-0.5 rounded-full inline-block mr-2;
+            }
+            .trigger-pulse {
+                animation: pulse 0.5s ease-in-out;
+            }
+            .sidebar-slide-in {
+                transform: translateX(0);
+            }
+            .sidebar-slide-out {
+                transform: translateX(100%);
+            }
+            .overlay-fade-in {
+                opacity: 0.5;
+                pointer-events: auto;
+            }
+            .overlay-fade-out {
+                opacity: 0;
+                pointer-events: none;
+            }
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.2); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-blog-bg text-blog-text min-h-screen overflow-x-hidden">
+    <!-- 页面头部 -->
+    <header class="py-6 px-4 md:px-8 border-b border-blog-border relative z-10">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <div class="flex items-center">
+                <a href="/" class="text-xl font-medium hover:text-vomit-dark transition-colors">
+                    <i class="fa fa-home mr-2"></i>返回博客首页
+                </a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <!-- 隐藏入口触发器 -->
+                <div id="vomit-trigger" class="cursor-pointer text-vomit-dark hover:text-vomit-text transition-colors group">
+                    <i class="fa fa-flask text-xl"></i>
+                    <span class="ml-1 text-sm opacity-0 group-hover:opacity-100 transition-opacity">实验室</span>
+                </div>
+                <div class="text-sm text-gray-500">
+                    <span id="click-counter" class="opacity-0">0/3</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="max-w-6xl mx-auto px-4 md:px-8 py-8 relative z-10">
+        <div class="prose max-w-none">
+            <!-- 这里是你博客的正常内容 -->
+            <h1>欢迎来到我的博客</h1>
+            <p>这是你的博客主页内容区域，当用户点击右上角的"实验室"图标3次后，电子呕吐物侧边栏会从右侧滑出。</p>
+            <p>这里可以放置你的日常记录、思考和其他博客内容...</p>
+        </div>
+    </main>
+
+    <!-- 侧边栏形式的电子呕吐物专区 -->
+    <div id="vomit-sidebar" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-2xl z-50 transition-transform duration-300 ease-in-out sidebar-slide-out overflow-y-auto">
+        <div class="p-4 border-b border-blog-border flex justify-between items-center sticky top-0 bg-white z-10">
+            <h1 class="text-xl font-bold text-vomit-text">
+                <i class="fa fa-poop mr-2"></i>电子呕吐物专区
+            </h1>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-700 transition-colors p-2">
+                <i class="fa fa-times text-lg"></i>
+            </button>
+        </div>
+
+        <div class="p-4">
+            <!-- 筛选和搜索区 -->
+            <div class="mb-6 flex flex-col gap-4">
+                <div class="flex flex-wrap gap-2">
+                    <span class="text-sm text-gray-500">筛选：</span>
+                    <button class="vomit-tag bg-vomit-light text-vomit-text hover:bg-vomit transition-colors active">全部</button>
+                    <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">情绪吐槽</button>
+                    <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">突发奇想</button>
+                    <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">摆烂碎念</button>
+                    <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">随手拍</button>
+                </div>
+                <div class="flex gap-2">
+                    <div class="relative flex-1">
+                        <input type="text" placeholder="搜你吐过的槽..." 
+                            class="pl-8 pr-3 py-1.5 text-sm border border-blog-border rounded-md focus:outline-none focus:ring-1 focus:ring-vomit-dark w-full">
+                        <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm"></i>
+                    </div>
+                    <select class="text-sm border border-blog-border rounded-md px-2 py-1.5 focus:outline-none focus:ring-1 focus:ring-vomit-dark">
+                        <option>最新在前</option>
+                        <option>最早在前</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 内容列表区 -->
+            <div id="vomit-list" class="mb-16">
+                <!-- 呕吐物卡片1 -->
+                <div class="vomit-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-400 mr-3">2025-09-07 23:47</span>
+                            <span class="vomit-tag bg-red-100 text-red-600">情绪吐槽</span>
+                        </div>
+                        <div class="admin-actions opacity-0 hover:opacity-100 transition-opacity">
+                            <button class="text-gray-400 hover:text-gray-600 mr-2"><i class="fa fa-edit"></i></button>
+                            <button class="text-gray-400 hover:text-red-500"><i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="text-vomit-dark mt-1"><i class="fa fa-meh-roll"></i></div>
+                        <div class="flex-1">
+                            <p>今天又没忍住喝了奶茶，明明说要减肥的... 为什么奶茶这么好喝啊！！！现在开始后悔了，罪恶感爆棚 😫</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 呕吐物卡片2 -->
+                <div class="vomit-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-400 mr-3">2025-09-05 15:22</span>
+                            <span class="vomit-tag bg-green-100 text-green-600">突发奇想</span>
+                        </div>
+                        <div class="admin-actions opacity-0 hover:opacity-100 transition-opacity">
+                            <button class="text-gray-400 hover:text-gray-600 mr-2"><i class="fa fa-edit"></i></button>
+                            <button class="text-gray-400 hover:text-red-500"><i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="text-vomit-dark mt-1"><i class="fa fa-lightbulb-o"></i></div>
+                        <div class="flex-1">
+                            <p>突然想到，如果把薯片做成麻辣味的会不会很奇怪？但又有点想试试... 说不定意外地好吃？</p>
+                            <div class="mt-3 rounded-md overflow-hidden">
+                                <img src="https://picsum.photos/600/300?random=1" alt="薯片照片" class="w-full h-auto hover:opacity-90 transition-opacity cursor-pointer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 呕吐物卡片3（长内容） -->
+                <div class="vomit-card">
+                    <div class="flex justify-between items-start mb-2">
+                        <div class="flex items-center">
+                            <span class="text-xs text-gray-400 mr-3">2025-09-01 10:15</span>
+                            <span class="vomit-tag bg-yellow-100 text-yellow-600">摆烂碎念</span>
+                        </div>
+                        <div class="admin-actions opacity-0 hover:opacity-100 transition-opacity">
+                            <button class="text-gray-400 hover:text-gray-600 mr-2"><i class="fa fa-edit"></i></button>
+                            <button class="text-gray-400 hover:text-red-500"><i class="fa fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <div class="text-vomit-dark mt-1"><i class="fa fa-coffee"></i></div>
+                        <div class="flex-1">
+                            <p class="vomit-content">今天不想学习，不想工作，什么都不想做。就想窝在沙发上发呆，或者看一部无聊的电影。感觉自己像个废人，但又不想改变这种状态... 可能偶尔摆烂也是必要的吧？不然弦绷得太紧会断的。可是又会有罪恶感，这种矛盾的心情真讨厌。</p>
+                            <button class="text-sm text-vomit-text mt-1 hover:underline">收起</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部操作区（仅管理员可见） -->
+            <div id="admin-area" class="fixed bottom-6 right-6 z-20">
+                <button id="add-vomit" class="bg-vomit hover:bg-vomit-dark text-vomit-text font-medium px-4 py-2 rounded-full shadow-md flex items-center gap-2 transition-all">
+                    <i class="fa fa-plus"></i>
+                    <span>吐点什么</span>
+                </button>
+            </div>
+
+            <!-- 新增内容弹窗（默认隐藏） -->
+            <div id="vomit-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+                <div class="bg-white rounded-lg w-full max-w-md p-6 transform transition-all scale-95 opacity-0">
+                    <h3 class="text-lg font-medium mb-4">新增电子呕吐物</h3>
+                    <div class="mb-4">
+                        <textarea placeholder="不用想，直接写..." rows="4" class="w-full border border-blog-border rounded-md p-3 focus:outline-none focus:ring-1 focus:ring-vomit-dark"></textarea>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm text-gray-500 mb-2">选择标签</label>
+                        <div class="flex flex-wrap gap-2">
+                            <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">情绪吐槽</button>
+                            <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">突发奇想</button>
+                            <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">摆烂碎念</button>
+                            <button class="vomit-tag bg-gray-100 text-gray-600 hover:bg-vomit-light hover:text-vomit-text transition-colors">随手拍</button>
+                        </div>
+                    </div>
+                    <div class="flex justify-end gap-3">
+                        <label class="flex items-center text-sm text-gray-500">
+                            <input type="checkbox" class="mr-1">
+                            仅自己可见
+                        </label>
+                        <button id="cancel-vomit" class="px-3 py-1.5 border border-blog-border rounded-md text-sm hover:bg-gray-50 transition-colors">取消</button>
+                        <button id="save-vomit" class="px-3 py-1.5 bg-vomit text-vomit-text rounded-md text-sm hover:bg-vomit-dark transition-colors">提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 背景遮罩 -->
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black overlay-fade-out transition-opacity duration-300 z-40"></div>
+
+    <script>
+        // 获取DOM元素
+        const triggerElement = document.getElementById('vomit-trigger');
+        const vomitSidebar = document.getElementById('vomit-sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const closeButton = document.getElementById('close-sidebar');
+        const clickCounter = document.getElementById('click-counter');
+        let clickCount = 0;
+
+        // 显示侧边栏函数
+        function showSidebar() {
+            vomitSidebar.classList.remove('sidebar-slide-out');
+            vomitSidebar.classList.add('sidebar-slide-in');
+            sidebarOverlay.classList.remove('overlay-fade-out');
+            sidebarOverlay.classList.add('overlay-fade-in');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+            
+            // 显示成功提示
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-vomit text-vomit-text px-4 py-2 rounded-md shadow-md z-50 transform transition-all duration-300 translate-x-full';
+            notification.textContent = '恭喜你找到了电子呕吐物专区！';
+            document.body.appendChild(notification);
+            
+            // 滑入动画
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // 3秒后移除提示
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // 隐藏侧边栏函数
+        function hideSidebar() {
+            vomitSidebar.classList.remove('sidebar-slide-in');
+            vomitSidebar.classList.add('sidebar-slide-out');
+            sidebarOverlay.classList.remove('overlay-fade-in');
+            sidebarOverlay.classList.add('overlay-fade-out');
+            document.body.style.overflow = ''; // 恢复背景滚动
+        }
+
+        // 点击触发器计数
+        triggerElement.addEventListener('click', () => {
+            clickCount++;
+            triggerElement.classList.add('trigger-pulse');
+            
+            // 显示计数
+            clickCounter.textContent = `${clickCount}/3`;
+            clickCounter.classList.remove('opacity-0');
+            clickCounter.classList.add('opacity-100');
+            
+            // 3次点击后显示侧边栏
+            if (clickCount >= 3) {
+                showSidebar();
+                // 重置计数器，以便可以再次打开
+                setTimeout(() => {
+                    clickCount = 0;
+                    clickCounter.textContent = `${clickCount}/3`;
+                }, 1000);
+            }
+            
+            // 移除动画类
+            setTimeout(() => {
+                triggerElement.classList.remove('trigger-pulse');
+            }, 500);
+        });
+
+        // 关闭按钮事件
+        closeButton.addEventListener('click', hideSidebar);
+
+        // 点击遮罩层关闭侧边栏
+        sidebarOverlay.addEventListener('click', hideSidebar);
+
+        // ESC键关闭侧边栏
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && vomitSidebar.classList.contains('sidebar-slide-in')) {
+                hideSidebar();
+            }
+        });
+
+        // 长内容展开/收起逻辑
+        document.querySelectorAll('.vomit-content').forEach(content => {
+            // 检查内容长度，超过一定字符则添加展开/收起功能
+            if (content.textContent.length > 100) {
+                const originalText = content.textContent;
+                const shortText = originalText.substring(0, 100) + '...';
+                content.textContent = shortText;
+                
+                const toggleBtn = content.nextElementSibling;
+                toggleBtn.textContent = '展开更多';
+                
+                toggleBtn.addEventListener('click', () => {
+                    if (toggleBtn.textContent === '展开更多') {
+                        content.textContent = originalText;
+                        toggleBtn.textContent = '收起';
+                    } else {
+                        content.textContent = shortText;
+                        toggleBtn.textContent = '展开更多';
+                    }
+                });
+            } else {
+                // 内容较短时隐藏按钮
+                content.nextElementSibling?.remove();
+            }
+        });
+
+        // 新增内容弹窗逻辑
+        const addButton = document.getElementById('add-vomit');
+        const modal = document.getElementById('vomit-modal');
+        const cancelButton = document.getElementById('cancel-vomit');
+        const saveButton = document.getElementById('save-vomit');
+
+        addButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
+            // 添加淡入动画
+            setTimeout(() => {
+                modal.querySelector('div').classList.add('scale-100', 'opacity-100');
+                modal.querySelector('div').classList.remove('scale-95', 'opacity-0');
+            }, 10);
+        });
+
+        function closeModal() {
+            modal.querySelector('div').classList.add('scale-95', 'opacity-0');
+            modal.querySelector('div').classList.remove('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        cancelButton.addEventListener('click', closeModal);
+        saveButton.addEventListener('click', () => {
+            // 模拟保存操作
+            alert('已保存新的电子呕吐物！');
+            closeModal();
+        });
+
+        // 点击模态框外部关闭
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // 标签选择逻辑
+        document.querySelectorAll('.vomit-tag').forEach(tag => {
+            tag.addEventListener('click', () => {
+                // 如果是筛选区的标签
+                if (tag.parentElement.querySelector('.text-gray-500')?.textContent === '筛选：') {
+                    // 移除同组其他标签的选中状态
+                    tag.parentElement.querySelectorAll('.vomit-tag').forEach(t => {
+                        t.classList.remove('bg-vomit-light', 'text-vomit-text');
+                        t.classList.add('bg-gray-100', 'text-gray-600');
+                    });
+                }
+                
+                // 设置当前标签为选中状态
+                tag.classList.remove('bg-gray-100', 'text-gray-600');
+                tag.classList.add('bg-vomit-light', 'text-vomit-text');
+            });
+        });
+    </script>
+</body>
+</html>
